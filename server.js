@@ -24,7 +24,7 @@ app.get('/', function(req, res) {
 app.post('/devices', function(req, res) {
     var device = catalog.createDevice(req.body.type);
     if (!device) {
-        res.sendStatus(404);
+        res.type('text').status(404).end();
         return;
     }
     res.status(201);
