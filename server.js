@@ -44,6 +44,13 @@ app.post('/devices', function(req, res) {
 
 // GET devices
 
+app.get('/devices', function(req, res) {
+    res.status(200);
+    res.json(devices);
+});
+
+// GET devices
+
 app.get('/devices/:id', function(req, res) {
     var device = devices[req.params.id];
     if( !device ) {
