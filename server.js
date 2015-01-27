@@ -22,9 +22,10 @@ app.get('/', function(req, res) {
 // devices
 
 app.post('/devices', function(req, res) {
-    var device = catalog.createDevice(req.body.type);
+    var type = req.body.type;
+    var device = catalog.createDevice(type);
     if (!device) {
-        res.type('text').status(404).end();
+        res.type('text').status(422).send('Device type not supported: '+type);
         return;
     }
     res.status(201);
