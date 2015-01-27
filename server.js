@@ -45,8 +45,13 @@ app.post('/devices', function(req, res) {
 // GET devices
 
 app.get('/devices/:id', function(req, res) {
+    var id = req.params.id;
+    if( id < 0 || id >= devices.length) {
+        res.status(404).end();
+        return;
+    }
     res.status(200);
-    res.json(devices[req.id]);
+    res.json(devices[id]);
 });
 
 // Start server
