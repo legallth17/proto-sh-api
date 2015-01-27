@@ -6,6 +6,11 @@ var catalog = require('./catalog');
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
+// devices store
+
+var devices = [];
+
+
 // Create and configure server
 
 var app = express();
@@ -19,7 +24,7 @@ app.get('/', function(req, res) {
         res.send("try POST /devices?type=motion");
 });
 
-// devices
+// POST devices
 
 app.post('/devices', function(req, res) {
     var type = req.body.type;
@@ -28,10 +33,21 @@ app.post('/devices', function(req, res) {
         res.type('text').status(422).send('Device type not supported: '+type);
         return;
     }
+    // store device
+    var id = devices.length;
+    devices[id] = device;
+    // send response
+    res.location('/devices/'+id);
     res.status(201);
     res.json(device);
 });
 
+// GET devices
+
+app.get('/devices/:id', function(req, res) {
+    res.status(200);
+    res.json(devices[req.id]);
+});
 
 // Start server
 
